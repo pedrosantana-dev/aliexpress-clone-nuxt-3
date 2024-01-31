@@ -1,6 +1,6 @@
 <template>
 	<div id="MainLayout" class="w-full fixed z-50">
-		<div id="TopMenu" class="w-full bg-[#FAFAFa] border-b md:block">
+		<div id="TopMenu" class="w-full bg-[#FAFAFa] border-b hidden md:block">
 			<ul
 				class="flex items-center justify-end text-xs text-[#333333] font-light px-2 h-10 bg-[#FAFAFA] max-w-[1200px]"
 			>
@@ -146,7 +146,7 @@
 				</NuxtLink>
 
 				<button
-					@click="userStore.isMenuOverly = true"
+					@click="userStore.isMenuOverlay = true"
 					class="md:hidden block rounded-full p-1.5 -mt-[4px] hover:bg-gray-200"
 				>
 					<Icon name="radix-icons:hamburger-menu" size="33" />

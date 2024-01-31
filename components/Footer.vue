@@ -50,7 +50,7 @@
 			Proteção de Propriedade Intelectual - Política de Privacidade - Mapa do
 			Site - Condições de Uso - Transaction Services Agreement for non-EU/UK
 			Consumers - Termos e Condições para os Consumidores da UE/EEE/Reino Unido
-			- Guia de Informações Jurídicas para o Usuário ©️ 2010-2023
+			- Guia de Informações Jurídicas para o Usuário ©️ 2010-2024
 			AliExpress.com. Todos os direitos reservados.
 		</div>
 	</div>
