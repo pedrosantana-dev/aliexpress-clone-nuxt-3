@@ -4,7 +4,7 @@
 			<div
 				class="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4"
 			>
-				<div v-if="products" v-for="product in products" :key="product">
+				<div v-if="products" v-for="product in products.data" :key="product">
 					<ProductComponent :product="product" />
 				</div>
 			</div>
@@ -15,77 +15,13 @@
 <script setup>
 	import MainLayout from '~/layouts/MainLayout.vue';
 	import ProductComponent from '~/components/ProductComponent.vue';
+	import { useUserStore } from '~/stores/user';
+	const userStore = useUserStore();
 
-	const products = [
-		{
-			id: 1,
-			title: 'Título 1',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/7/800/800',
-			price: 9999,
-		},
-		{
-			id: 2,
-			title: 'Título 2',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/27/800/800',
-			price: 9699,
-		},
-		{
-			id: 3,
-			title: 'Título 3',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/17/800/800',
-			price: 9999,
-		},
-		{
-			id: 4,
-			title: 'Título 4',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/37/800/800',
-			price: 29999,
-		},
-		{
-			id: 5,
-			title: 'Título 5',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/47/800/800',
-			price: 49999,
-		},
-		{
-			id: 6,
-			title: 'Título 6',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/57/800/800',
-			price: 94999,
-		},
-		{
-			id: 7,
-			title: 'Título 7',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/67/800/800',
-			price: 39999,
-		},
-		{
-			id: 8,
-			title: 'Título 8',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/77/800/800',
-			price: 93999,
-		},
-		{
-			id: 9,
-			title: 'Título 9',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/71/800/800',
-			price: 99599,
-		},
-		{
-			id: 10,
-			title: 'Título 10',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/70/800/800',
-			price: 69999,
-		},
-	];
+	let products = ref(null);
+
+	onBeforeMount(async () => {
+		products.value = await useFetch('/api/prisma/get-all-products');
+		setTimeout(() => (userStore.isLoading = false), 200);
+	});
 </script>

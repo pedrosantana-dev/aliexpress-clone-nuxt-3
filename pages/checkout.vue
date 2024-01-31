@@ -5,7 +5,7 @@
 				<div class="md:w-[60%]">
 					<div class="bg-white rounded-lg p-4">
 						<div class="text-xl font-semibold mb-2">Endereço de Entrega</div>
-						<div v-if="false">
+						<div v-if="currentAddress && currentAddress.data">
 							<NuxtLink
 								to="/address"
 								class="flex items-center pb-2 text-blue-500 hover:text-red-400"
@@ -20,23 +20,29 @@
 								<ul class="text-xs">
 									<li class="flex items-center gap-2">
 										<div>Nome do contato:</div>
-										<div class="font-bold">TESTE</div>
+										<div class="font-bold">{{ currentAddress.data.name }}</div>
 									</li>
 									<li class="flex items-center gap-2">
 										<div>Endereço:</div>
-										<div class="font-bold">TESTE</div>
+										<div class="font-bold">
+											{{ currentAddress.data.address }}
+										</div>
 									</li>
 									<li class="flex items-center gap-2">
 										<div>Cidade:</div>
-										<div class="font-bold">TESTE</div>
+										<div class="font-bold">{{ currentAddress.data.city }}</div>
 									</li>
 									<li class="flex items-center gap-2">
 										<div>Estado:</div>
-										<div class="font-bold">TESTE</div>
+										<div class="font-bold">
+											{{ currentAddress.data.country }}
+										</div>
 									</li>
 									<li class="flex items-center gap-2">
 										<div>CEP:</div>
-										<div class="font-bold">TESTE</div>
+										<div class="font-bold">
+											{{ currentAddress.data.zipcode }}
+										</div>
 									</li>
 								</ul>
 							</div>
@@ -53,7 +59,7 @@
 					</div>
 
 					<div id="Items" class="bg-white rounded-lg p-4 mt-4">
-						<div v-for="product in products">
+						<div v-for="product in userStore.checkout">
 							<CheckoutItem :product="product" />
 						</div>
 					</div>
@@ -121,6 +127,7 @@
 
 	import { useUserStore } from '~/stores/user';
 	const userStore = useUserStore();
+	const user = useSupabaseUser();
 	const route = useRoute();
 
 	let stripe = null;
@@ -131,6 +138,27 @@
 	let clientSecret = null;
 	let currentAddress = ref(null);
 	let isProcessing = ref(false);
+
+	onBeforeMount(async () => {
+		if (userStore.checkout.length < 1) {
+			return navigateTo('/shoppingcart');
+		}
+
+		total.value = 0.0;
+
+		if (user.value) {
+			currentAddress.value = await useFetch(
+				`/api/prisma/get-address-by-user/${user.id}`
+			);
+			setTimeout(() => (userStore.isLoading = false), 200);
+		}
+	});
+
+	watchEffect(() => {
+		if (route.fullPath == '/checkout' && !user.value) {
+			return navigateTo('/auth');
+		}
+	});
 
 	onMounted(() => {
 		isProcessing.value = true;
@@ -156,21 +184,4 @@
 	const createOrder = async (stripeId) => {};
 
 	const showError = async (errorMsgText) => {};
-
-	const products = [
-		{
-			id: 1,
-			title: 'Título 1',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/7/800/800',
-			price: 9999,
-		},
-		{
-			id: 2,
-			title: 'Título 2',
-			description: 'Essa é uma descrição',
-			url: 'https://picsum.photos/id/7/800/800',
-			price: 9699,
-		},
-	];
 </script>
