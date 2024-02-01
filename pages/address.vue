@@ -78,7 +78,7 @@
 	let error = ref(null);
 
 	watchEffect(async () => {
-		currentAddress = await useFetch(
+		currentAddress.value = await useFetch(
 			`/api/prisma/get-address-by-user/${user.value.id}`
 		);
 
@@ -153,7 +153,7 @@
 
 		await useFetch('/api/prisma/add-address/', {
 			method: 'POST',
-			data: {
+			body: {
 				userId: user.value.id,
 				name: contactName.value,
 				address: address.value,

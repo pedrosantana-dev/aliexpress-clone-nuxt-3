@@ -148,7 +148,7 @@
 
 		if (user.value) {
 			currentAddress.value = await useFetch(
-				`/api/prisma/get-address-by-user/${user.id}`
+				`/api/prisma/get-address-by-user/${user.value.id}`
 			);
 			setTimeout(() => (userStore.isLoading = false), 200);
 		}
