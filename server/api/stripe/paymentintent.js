@@ -1,0 +1,12 @@
+import Stripe from 'stripe';
+
+export default defineEventHandler(async (event) => {
+	const body = await readBody(event);
+	const stripe = new Stripe(process.env.STRIPE_SK_KEY);
+	console.log(body.amount);
+	return await stripe.paymentIntents.create({
+		amount: Number(body.amount),
+		currency: 'brl',
+		automatic_payment_methods: { enabled: true },
+	});
+});
