@@ -235,9 +235,9 @@
 			isProcessing.value = false;
 		} else {
 			await createOrder(result.paymentIntent.id);
-			userStore.cart = [];
-			userStore.checkout = [];
 			setTimeout(() => {
+				userStore.cart = [];
+				userStore.checkout = [];
 				return navigateTo('/success');
 			}, 500);
 		}
