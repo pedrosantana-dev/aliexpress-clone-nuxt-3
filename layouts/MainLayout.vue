@@ -176,6 +176,10 @@
 	let searchItem = ref('');
 	let items = ref(null);
 
+	onMounted(() => {
+		isSearching.value = false;
+	});
+
 	const searchByName = useDebounce(async () => {
 		isSearching.value = true;
 		if (searchItem.value) {
