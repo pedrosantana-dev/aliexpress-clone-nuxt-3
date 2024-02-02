@@ -130,6 +130,8 @@
 	const user = useSupabaseUser();
 	const route = useRoute();
 
+	definePageMeta({ middleware: 'auth' });
+
 	let stripe = null;
 	let elements = null;
 	let card = null;
@@ -180,7 +182,7 @@
 	const stripeInit = async () => {
 		const runtimeConfig = useRuntimeConfig();
 		stripe = Stripe(runtimeConfig.public.stripePk);
-		console.log(total.value);
+
 		let res = await $fetch('/api/stripe/paymentintent', {
 			method: 'POST',
 			body: {
